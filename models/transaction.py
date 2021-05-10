@@ -30,7 +30,7 @@ class TransactionModel(db.Model):
             db.session.add(self)
             db.session.commit()
         except Exception as e:
-            print(e)
+            print("error when saving transaction:", e)
 
     def delete_from_db(self):
         db.session.delete(self)

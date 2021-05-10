@@ -21,23 +21,23 @@ class CategoryModel(db.Model):
     def find_by_name(cls, name):
         return cls.query.filter_by(name=name).first()
 
-    def update_transaction_prices(self):
-        conn = sqlite3.connect('data.db')
-        cur = conn.cursor()
-
-        if self.type == 'Income':
-            query = "UPDATE Transactions SET price=abs(price) WHERE category=?"
-            cur.execute(query, (self.name,))
-            conn.commit()
-            conn.close()
-        else:
-            query = "UPDATE Transactions SET price=abs(price)*-1 WHERE category=?"
-            cur.execute(query, (self.name,))
-
-            conn.commit()
-            conn.close()
+    # def update_transaction_prices(self):
+    #     conn = sqlite3.connect('data.db')
+    #     cur = conn.cursor()
+    #
+    #     if self.type == 'Income':
+    #         query = "UPDATE Transactions SET price=abs(price) WHERE category=?"
+    #         cur.execute(query, (self.name,))
+    #         conn.commit()
+    #         conn.close()
+    #     else:
+    #         query = "UPDATE Transactions SET price=abs(price)*-1 WHERE category=?"
+    #         cur.execute(query, (self.name,))
+    #
+    #         conn.commit()
+    #         conn.close()
 
     def save_to_db(self):
         db.session.add(self)
         db.session.commit()
-        self.update_transaction_prices()
+        # self.update_transaction_prices()

@@ -41,20 +41,20 @@ class Category(Resource):
 
         return category.json(), 201
 
-    @jwt_required()
-    def delete(self):
-        data = Category.parser.parse_args()
-
-        conn = sqlite3.connect('data.db')
-        cur = conn.cursor()
-
-        query = "DELETE FROM Categories WHERE category=?"
-        cur.execute(query, (data['name'],))
-
-        conn.commit()
-        conn.close()
-
-        return {"message": "Category deleted."}
+    # @jwt_required()
+    # def delete(self):
+    #     data = Category.parser.parse_args()
+    #
+    #     conn = sqlite3.connect('data.db')
+    #     cur = conn.cursor()
+    #
+    #     query = "DELETE FROM Categories WHERE category=?"
+    #     cur.execute(query, (data['name'],))
+    #
+    #     conn.commit()
+    #     conn.close()
+    #
+    #     return {"message": "Category deleted."}
 
     @jwt_required()
     def put(self):

@@ -12,8 +12,7 @@ class TransactionModel(db.Model):
     category = db.Column(db.Text, db.ForeignKey('Categories.name'))
     price = db.Column(db.Float(precision=2))
 
-    def __init__(self, _id, date, vendor, category, price):
-        self.id = _id
+    def __init__(self, date, vendor, category, price):
         self.date = date
         self.vendor = vendor
         self.category = category

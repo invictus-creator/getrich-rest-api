@@ -7,7 +7,7 @@ class Transaction(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument('id',
                         type=str,
-                        required=True,
+                        required=False,
                         help="This field cannot be left blank.")
     parser.add_argument('date',
                         type=str,
@@ -40,7 +40,7 @@ class Transaction(Resource):
     def post(self):
         data = Transaction.parser.parse_args()
 
-        transaction = TransactionModel(None, data['date'], data['vendor'], data['category'], data['price'])
+        transaction = TransactionModel(data['date'], data['vendor'], data['category'], data['price'])
 
         try:
             transaction.save_to_db()
@@ -56,7 +56,7 @@ class Transaction(Resource):
         transaction = TransactionModel.find_by_id(data['id'])
 
         if transaction is None:
-            transaction = TransactionModel(**data)
+            transaction = TransactionModel(data['date'], data['vendor'], data['category'], data['price'])
         else:
             transaction.date = data['date']
             transaction.vendor = data['vendor']

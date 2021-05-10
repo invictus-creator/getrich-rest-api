@@ -1,5 +1,5 @@
 from flask import Flask
-from flask_restful import Resource, Api
+from flask_restful import Api
 from flask_jwt import JWT
 from resources.transaction import Transaction, RecentTransactions
 from resources.category import Category, CategoryList

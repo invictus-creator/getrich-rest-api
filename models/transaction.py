@@ -1,6 +1,6 @@
 from db import db
-from sqlalchemy import func
-from sqlalchemy.ext.hybrid import hybrid_property
+# from sqlalchemy import func
+# from sqlalchemy.ext.hybrid import hybrid_property
 
 
 class TransactionModel(db.Model):
@@ -14,21 +14,21 @@ class TransactionModel(db.Model):
     category = db.Column(db.Text, db.ForeignKey('Categories.name'))
     price = db.Column(db.Float(precision=2))
 
-    @hybrid_property
-    def positive_price(self):
-        return abs(self.price)
-
-    @positive_price.expression
-    def positive_price(cls):
-        return func.abs(cls.price)
-
-    @hybrid_property
-    def negative_price(self):
-        return abs(self.price)*-1
-
-    @positive_price.expression
-    def negative_price(cls):
-        return func.abs(cls.price)*-1
+    # @hybrid_property
+    # def positive_price(self):
+    #     return abs(self.price)
+    #
+    # @positive_price.expression
+    # def positive_price(cls):
+    #     return func.abs(cls.price)
+    #
+    # @hybrid_property
+    # def negative_price(self):
+    #     return abs(self.price)*-1
+    #
+    # @positive_price.expression
+    # def negative_price(cls):
+    #     return func.abs(cls.price)*-1
 
     def __init__(self, date, vendor, category, price):
         self.date = date
@@ -51,15 +51,15 @@ class TransactionModel(db.Model):
         db.session.delete(self)
         db.session.commit()
 
-    @classmethod
-    def update_prices(cls, name, _type):
-        if _type == "Income":
-            # cls.query.update(price=abs(cls.c.price)).where(cls.c.category == name)
-            db.update(cls).where(cls.category == name).values(price=cls.positive_price)
-            # cls.query.update().where(cls.c.category == name).values(price=abs(cls.c.price))
-            db.session.commit()
-        else:
-            # cls.query.update(price=abs(cls.c.price)*-1).where(cls.c.category == name)
-            db.update(cls).where(cls.category == name).values(price=cls.negative_price)
-            # cls.query.update().where(cls.c.category == name).values(price=abs(cls.c.price)*-1)
-            db.session.commit()
+    # @classmethod
+    # def update_prices(cls, name, _type):
+    #     if _type == "Income":
+    #         # cls.query.update(price=abs(cls.c.price)).where(cls.c.category == name)
+    #         db.update(cls).where(cls.category == name).values(price=cls.positive_price)
+    #         # cls.query.update().where(cls.c.category == name).values(price=abs(cls.c.price))
+    #         db.session.commit()
+    #     else:
+    #         # cls.query.update(price=abs(cls.c.price)*-1).where(cls.c.category == name)
+    #         db.update(cls).where(cls.category == name).values(price=cls.negative_price)
+    #         # cls.query.update().where(cls.c.category == name).values(price=abs(cls.c.price)*-1)
+    #         db.session.commit()

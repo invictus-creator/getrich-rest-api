@@ -37,11 +37,11 @@ class TransactionModel(db.Model):
     def update_prices(cls, name, _type):
         if _type == "Income":
             # cls.query.update(price=abs(cls.c.price)).where(cls.c.category == name)
-            db.update(cls).where(cls.c.category == name).values(price=abs(cls.c.price))
+            db.update(cls).where(cls.category == name).values(price=abs(cls.price))
             # cls.query.update().where(cls.c.category == name).values(price=abs(cls.c.price))
             db.session.commit()
         else:
-            cls.query.update(price=abs(cls.c.price)*-1).where(cls.c.category == name)
-            db.update(cls).where(cls.c.category == name).values(price=abs(cls.c.price)*-1)
+            # cls.query.update(price=abs(cls.c.price)*-1).where(cls.c.category == name)
+            db.update(cls).where(cls.category == name).values(price=abs(cls.price)*-1)
             # cls.query.update().where(cls.c.category == name).values(price=abs(cls.c.price)*-1)
             db.session.commit()

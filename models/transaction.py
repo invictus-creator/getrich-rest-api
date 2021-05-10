@@ -1,5 +1,6 @@
 from db import db
 from sqlalchemy import func
+from sqlalchemy.ext.hybrid import hybrid_property
 
 
 class TransactionModel(db.Model):
@@ -13,7 +14,7 @@ class TransactionModel(db.Model):
     category = db.Column(db.Text, db.ForeignKey('Categories.name'))
     price = db.Column(db.Float(precision=2))
 
-    @hyprid_property
+    @hybrid_property
     def positive_price(self):
         return abs(self.price)
 
@@ -21,7 +22,7 @@ class TransactionModel(db.Model):
     def positive_price(cls):
         return func.abs(cls.price)
 
-    @hyprid_property
+    @hybrid_property
     def negative_price(self):
         return abs(self.price)*-1
 

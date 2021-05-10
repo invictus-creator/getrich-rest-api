@@ -32,3 +32,11 @@ class TransactionModel(db.Model):
     def delete_from_db(self):
         db.session.delete(self)
         db.session.commit()
+
+    def update_prices(self, _category, _type):
+        if _type == "Income":
+            db.session.update().where(self.c.category == _category).values(price=abs(self.c.price))
+            db.session.commit()
+        else:
+            db.session.update().where(self.c.category == _category).values(price=abs(self.c.price)*-1)
+            db.session.commit()

@@ -26,8 +26,11 @@ class TransactionModel(db.Model):
         return cls.query.filter_by(id=_id).first()
 
     def save_to_db(self):
-        db.session.add(self)
-        db.session.commit()
+        try:
+            db.session.add(self)
+            db.session.commit()
+        except Exception as e:
+            print(e)
 
     def delete_from_db(self):
         db.session.delete(self)

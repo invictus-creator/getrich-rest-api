@@ -2,6 +2,7 @@ import sqlite3
 from flask_jwt import jwt_required
 from flask_restful import Resource, reqparse
 from models.category import CategoryModel
+from models.transaction import TransactionModel
 
 
 class Category(Resource):
@@ -36,6 +37,7 @@ class Category(Resource):
 
         try:
             category.save_to_db()
+            TransactionModel.update_prices(**data)
         except:
             return {"message": "An error occurred inserting the category."}, 500
 

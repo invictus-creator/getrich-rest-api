@@ -33,10 +33,11 @@ class TransactionModel(db.Model):
         db.session.delete(self)
         db.session.commit()
 
-    def update_prices(self, _category, _type):
+    @classmethod
+    def update_prices(cls, name, _type):
         if _type == "Income":
-            db.session.update().where(self.c.category == _category).values(price=abs(self.c.price))
+            db.session.update().where(cls.c.category == name).values(price=abs(cls.c.price))
             db.session.commit()
         else:
-            db.session.update().where(self.c.category == _category).values(price=abs(self.c.price)*-1)
+            db.session.update().where(cls.c.category == name).values(price=abs(cls.c.price)*-1)
             db.session.commit()

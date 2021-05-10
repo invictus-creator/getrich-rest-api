@@ -1,5 +1,4 @@
 from db import db
-from transaction import TransactionModel
 
 
 class CategoryModel(db.Model):
@@ -24,4 +23,3 @@ class CategoryModel(db.Model):
     def save_to_db(self):
         db.session.add(self)
         db.session.commit()
-        TransactionModel.update_prices(self.name, self.type)

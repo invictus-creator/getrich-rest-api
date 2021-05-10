@@ -37,7 +37,6 @@ class Category(Resource):
 
         try:
             category.save_to_db()
-            TransactionModel.update_prices(**data)
         except:
             return {"message": "An error occurred inserting the category."}, 500
 
@@ -68,6 +67,7 @@ class Category(Resource):
             category = CategoryModel(**data)
         else:
             category.type = data['_type']
+            TransactionModel.update_prices(**data)
 
         category.save_to_db()
         return category.json()

@@ -63,7 +63,11 @@ class Transaction(Resource):
             transaction.category = data['category']
             transaction.price = data['price']
 
-        transaction.save_to_db()
+        try:
+            transaction.save_to_db()
+        except:
+            return {"message": "An error occurred inserting/updating the transaction."}, 500
+
         return transaction.json()
 
     @jwt_required()

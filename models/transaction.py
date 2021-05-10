@@ -36,8 +36,8 @@ class TransactionModel(db.Model):
     @classmethod
     def update_prices(cls, name, _type):
         if _type == "Income":
-            db.session.update().where(cls.c.category == name).values(price=abs(cls.c.price))
+            cls.update().where(cls.c.category == name).values(price=abs(cls.c.price))
             db.session.commit()
         else:
-            db.session.update().where(cls.c.category == name).values(price=abs(cls.c.price)*-1)
+            cls.update().where(cls.c.category == name).values(price=abs(cls.c.price)*-1)
             db.session.commit()

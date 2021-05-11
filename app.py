@@ -20,7 +20,7 @@ api.add_resource(Transaction, '/transaction')
 api.add_resource(RecentTransactions, '/recenttransactions')
 api.add_resource(Category, '/category')
 api.add_resource(CategoryList, '/categorylist')
-api.add_resource(UserRegister, '/register')
+# api.add_resource(UserRegister, '/register')
 
 if __name__ == '__main__':
     from db import db

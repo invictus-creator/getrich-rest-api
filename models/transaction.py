@@ -43,6 +43,13 @@ class TransactionModel(db.Model):
     def find_by_id(cls, _id):
         return cls.query.filter_by(id=_id).first()
 
+    @classmethod
+    def update_prices(cls, name, _type):
+        if _type == "Income":
+            cls.query.update(price="abs(price)").where(category=name)
+        else:
+            cls.query.update(price="abs(price)*-1").where(category=name)
+
     def save_to_db(self):
         db.session.add(self)
         db.session.commit()
@@ -51,8 +58,7 @@ class TransactionModel(db.Model):
         db.session.delete(self)
         db.session.commit()
 
-    # @classmethod
-    # def update_prices(cls, name, _type):
+
     #     if _type == "Income":
     #         # cls.query.update(price=abs(cls.c.price)).where(cls.c.category == name)
     #         db.update(cls).where(cls.category == name).values(price=cls.positive_price)

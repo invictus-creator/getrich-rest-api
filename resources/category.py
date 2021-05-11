@@ -2,7 +2,7 @@ import sqlite3
 from flask_jwt import jwt_required
 from flask_restful import Resource, reqparse
 from models.category import CategoryModel
-# from models.transaction import TransactionModel
+from models.transaction import TransactionModel
 
 
 class Category(Resource):
@@ -67,7 +67,7 @@ class Category(Resource):
             category = CategoryModel(**data)
         else:
             category.type = data['_type']
-            # TransactionModel.update_prices(**data)
+            TransactionModel.update_prices(**data)
 
         category.save_to_db()
         return category.json()

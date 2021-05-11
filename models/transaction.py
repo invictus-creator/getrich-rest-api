@@ -1,5 +1,5 @@
 from db import db
-# from sqlalchemy import func
+from sqlalchemy import func
 # from sqlalchemy.ext.hybrid import hybrid_property
 
 
@@ -46,10 +46,10 @@ class TransactionModel(db.Model):
     @classmethod
     def update_prices(cls, name, _type):
         if _type == "Income":
-            print("\n\n", type(cls.price.item_reference_1))
-            db.session.query(cls).filter(cls.category == name).update({cls.price: abs(cls.priceprice.item_reference_1)})
+            print("\n\n", type(cls.price))
+            db.session.query(cls).filter(cls.category == name).update({cls.price: func.abs(cls.price)})
         else:
-            db.session.query(cls).filter(cls.category == name).update({cls.price: abs(cls.priceprice.item_reference_1)*-1})
+            db.session.query(cls).filter(cls.category == name).update({cls.price: func.abs(cls.price)*-1})
 
     def save_to_db(self):
         db.session.add(self)

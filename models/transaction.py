@@ -46,7 +46,6 @@ class TransactionModel(db.Model):
     @classmethod
     def update_prices(cls, name, _type):
         if _type == "Income":
-            print("\n\n", type(cls.price))
             db.session.query(cls).filter(cls.category == name).update({cls.price: func.abs(cls.price)})
         else:
             db.session.query(cls).filter(cls.category == name).update({cls.price: func.abs(cls.price)*-1})

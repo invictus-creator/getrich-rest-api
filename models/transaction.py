@@ -46,9 +46,9 @@ class TransactionModel(db.Model):
     @classmethod
     def update_prices(cls, name, _type):
         if _type == "Income":
-            db.session.query(cls).filter(cls.category == name).update({cls.price: "abs(price)"})
+            db.session.query(cls).filter(cls.category == name).update({cls.price: abs(cls.price)})
         else:
-            db.session.query(cls).filter(cls.category == name).update({cls.price: "abs(price)*-1"})
+            db.session.query(cls).filter(cls.category == name).update({cls.price: abs(cls.price)*-1})
 
     def save_to_db(self):
         db.session.add(self)

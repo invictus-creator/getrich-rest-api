@@ -1,5 +1,5 @@
 from flask_restful import Resource, reqparse
-from flask_jwt import jwt_required
+# from flask_jwt import jwt_required
 from models.transaction import TransactionModel
 
 
@@ -26,7 +26,7 @@ class Transaction(Resource):
                         required=True,
                         help="This field cannot be left blank.")
 
-    @jwt_required()
+    # @jwt_required()
     def get(self):
         data = Transaction.parser.parse_args()
         transaction = TransactionModel.find_by_id(data['id'])
@@ -36,7 +36,7 @@ class Transaction(Resource):
         else:
             return {"message": "Transaction not found."}, 404
 
-    @jwt_required()
+    # @jwt_required()
     def post(self):
         data = Transaction.parser.parse_args()
 
@@ -49,7 +49,7 @@ class Transaction(Resource):
 
         return transaction.json()
 
-    @jwt_required()
+    # @jwt_required()
     def put(self):
         data = Transaction.parser.parse_args()
 
@@ -70,7 +70,7 @@ class Transaction(Resource):
 
         return transaction.json()
 
-    @jwt_required()
+    # @jwt_required()
     def delete(self):
         data = Transaction.parser.parse_args()
 
@@ -82,7 +82,7 @@ class Transaction(Resource):
 
 
 class RecentTransactions(Resource):
-    @jwt_required()
+    # @jwt_required()
     def get(self):
         return {"recent": [x.json() for x in TransactionModel.query.order_by(TransactionModel.date.desc(),
                                                                              TransactionModel.id.desc()).limit(50)]}

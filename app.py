@@ -1,11 +1,11 @@
 import os
 from flask import Flask
 from flask_restful import Api
-from flask_jwt import JWT
+# from flask_jwt import JWT
 from resources.transaction import Transaction, RecentTransactions
 from resources.category import Category, CategoryList
-from security import authenticate, identify
-from resources.user import UserRegister
+# from security import authenticate, identify
+# from resources.user import UserRegister
 
 app = Flask(__name__)
 db_url = os.environ.get('DATABASE_URI')
@@ -14,7 +14,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = "secret1"
 api = Api(app)
 
-jwt = JWT(app, authenticate, identify)
+# jwt = JWT(app, authenticate, identify)
 
 api.add_resource(Transaction, '/transaction')
 api.add_resource(RecentTransactions, '/recenttransactions')

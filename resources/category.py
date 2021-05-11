@@ -1,5 +1,4 @@
-import sqlite3
-from flask_jwt import jwt_required
+# from flask_jwt import jwt_required
 from flask_restful import Resource, reqparse
 from models.category import CategoryModel
 from models.transaction import TransactionModel
@@ -16,7 +15,7 @@ class Category(Resource):
                         required=True,
                         help="This field cannot be left blank.")
 
-    @jwt_required()
+    # @jwt_required()
     def get(self):
         data = Category.parser.parse_args()
         category = CategoryModel.find_by_name(data['name'])
@@ -26,7 +25,7 @@ class Category(Resource):
         else:
             return {"message": "Category not found."}, 404
 
-    @jwt_required()
+    # @jwt_required()
     def post(self):
         data = Category.parser.parse_args()
 
@@ -57,7 +56,7 @@ class Category(Resource):
     #
     #     return {"message": "Category deleted."}
 
-    @jwt_required()
+    # @jwt_required()
     def put(self):
         data = Category.parser.parse_args()
 

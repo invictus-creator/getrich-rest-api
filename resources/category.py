@@ -69,6 +69,11 @@ class Category(Resource):
             category = CategoryModel(**data)
         else:
             category.name = data['name']
+            transaction = TransactionModel.find_by_id(data['transactions']['id'])
+            if transaction:
+                # remove it from the category's transactions list, so i can add the updated version
+                category.delete_transaction(transaction)
+
             category.transactions.append(data['transactions'])
             if not category.type == data['_type']:
                 category.type = data['_type']

@@ -27,6 +27,12 @@ class CategoryModel(db.Model):
     def find_by_name(cls, name):
         return cls.query.filter_by(name=name).first()
 
+    def delete_transaction(self, transaction):
+        for tx in self.transactions:
+            if tx[id] == transaction['id']:
+                del self.transactions[tx]
+                return
+
     def save_to_db(self):
         db.session.add(self)
         db.session.commit()

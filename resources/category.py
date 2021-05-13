@@ -60,6 +60,7 @@ class Category(Resource):
     # @jwt_required()
     def put(self):
         data = Category.parser.parse_args()
+        print("\n\ndata['transactions'] = \n", data['transactions'], "\n\n")
         data = {"name": data['name'].lower(), "_type": data['_type'].lower(), "transactions": data['transactions']}
 
         category = CategoryModel.find_by_name(data['name'].lower())

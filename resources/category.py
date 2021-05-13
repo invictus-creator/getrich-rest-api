@@ -14,7 +14,7 @@ class Category(Resource):
                         required=True,
                         help="This field cannot be left blank.")
     parser.add_argument('transactions',
-                        type=list,
+                        type=dict,
                         required=False,
                         help="This field cannot be left blank.")
 

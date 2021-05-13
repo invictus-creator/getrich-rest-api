@@ -10,7 +10,7 @@ class TransactionModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.Text)
     vendor = db.Column(db.Text)
-    category = db.Column(db.Text, db.ForeignKey('Categories.name'))
+    category = db.Column(db.Text)
     price = db.Column(db.Float(precision=2))
 
     def __init__(self, date, vendor, category, price):

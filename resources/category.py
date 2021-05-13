@@ -22,7 +22,7 @@ class Category(Resource):
     # @jwt_required()
     def get(self):
         data = Category.parser.parse_args()
-        category = CategoryModel.find_by_name(lower(data['name']))
+        category = CategoryModel.find_by_name(data['name'].lower())
 
         if category:
             return category.json(), 200
@@ -32,7 +32,7 @@ class Category(Resource):
     # @jwt_required()
     def post(self):
         data = Category.parser.parse_args()
-        data = lower(data['name']), lower(data['_type'])
+        data = data['name'].lower(), data['_type'].lower()
 
         if CategoryModel.find_by_name(data['name']):
             return {"message": "A category with that name already exists."}, 400
@@ -49,7 +49,7 @@ class Category(Resource):
     # @jwt_required()
     def delete(self):
         data = Category.parser.parse_args()
-        data = lower(data['name']), lower(data['_type'])
+        data = data['name'].lower(), data['_type'].lower()
 
         category = CategoryModel.find_by_name(data['name'])
         if category:
@@ -61,7 +61,7 @@ class Category(Resource):
     # @jwt_required()
     def put(self):
         data = Category.parser.parse_args()
-        data = lower(data['name']), lower(data['_type'])
+        data = data['name'].lower(), data['_type'].lower()
 
         category = CategoryModel.find_by_name(data['name'])
 

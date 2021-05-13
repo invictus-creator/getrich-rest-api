@@ -3,7 +3,6 @@ from flask_restful import Resource, reqparse
 from models.category import CategoryModel
 from models.transaction import TransactionModel
 
-
 class Category(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument('name',
@@ -15,7 +14,7 @@ class Category(Resource):
                         required=True,
                         help="This field cannot be left blank.")
     parser.add_argument('transactions',
-                        type=str,
+                        type=list,
                         required=False,
                         help="This field cannot be left blank.")
 
@@ -32,9 +31,9 @@ class Category(Resource):
     # @jwt_required()
     def post(self):
         data = Category.parser.parse_args()
-        data = data['name'].lower(), data['_type'].lower()
+        data = {"name": data['name'].lower(), "_type": data['_type'].lower()}
 
-        if CategoryModel.find_by_name(data['name']):
+        if CategoryModel.find_by_name(data['name'].lower()):
             return {"message": "A category with that name already exists."}, 400
 
         category = CategoryModel(**data)
@@ -49,9 +48,8 @@ class Category(Resource):
     # @jwt_required()
     def delete(self):
         data = Category.parser.parse_args()
-        data = data['name'].lower(), data['_type'].lower()
 
-        category = CategoryModel.find_by_name(data['name'])
+        category = CategoryModel.find_by_name(data['name'].lower())
         if category:
             db.session.query(TransactionModel).filter(TransactionModel.category == data['name']).delete()
             category.delete_from_db()
@@ -61,9 +59,9 @@ class Category(Resource):
     # @jwt_required()
     def put(self):
         data = Category.parser.parse_args()
-        data = data['name'].lower(), data['_type'].lower()
+        data = {"name": data['name'].lower(), "_type": data['_type'].lower()}
 
-        category = CategoryModel.find_by_name(data['name'])
+        category = CategoryModel.find_by_name(data['name'].lower())
 
         if category is None:
             category = CategoryModel(**data)

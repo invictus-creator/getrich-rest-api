@@ -44,8 +44,8 @@ class Transaction(Resource):
 
         try:
             transaction.save_to_db()
-        except:
-            return {"message": "An error occurred inserting the transaction."}, 500
+        except Exception as e:
+            return {"message": f"An error occurred inserting the transaction. {e}"}, 500
 
         return transaction.json()
 

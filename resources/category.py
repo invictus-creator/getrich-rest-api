@@ -31,11 +31,12 @@ class Category(Resource):
     # @jwt_required()
     def post(self):
         data = Category.parser.parse_args()
-        data = {"name": data['name'].lower(), "_type": data['_type'].lower()}
+        data = {"name": data['name'].lower(), "_type": data['_type'].lower(), "transactions": data['transactions']}
 
         if CategoryModel.find_by_name(data['name'].lower()):
             return {"message": "A category with that name already exists."}, 400
 
+        data['transactions'] = [data['transactions']]
         category = CategoryModel(**data)
 
         try:
@@ -59,14 +60,16 @@ class Category(Resource):
     # @jwt_required()
     def put(self):
         data = Category.parser.parse_args()
-        data = {"name": data['name'].lower(), "_type": data['_type'].lower()}
+        data = {"name": data['name'].lower(), "_type": data['_type'].lower(), "transactions": data['transactions']}
 
         category = CategoryModel.find_by_name(data['name'].lower())
 
         if category is None:
+            data['transactions'] = [data['transactions']]
             category = CategoryModel(**data)
         else:
             category.name = data['name']
+            category.transactions.append(data['transactions'])
             if not category.type == data['_type']:
                 category.type = data['_type']
                 TransactionModel.update_prices(**data)

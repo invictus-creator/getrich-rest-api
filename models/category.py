@@ -16,8 +16,8 @@ class CategoryModel(db.Model):
     transactions = db.Column(db.JSON, nullable=True)
 
     def __init__(self, name: str, _type: str, transactions=[{},]):
-        self.name = lower(name)
-        self.type = lower(_type)
+        self.name = name
+        self.type = _type
         self.transactions = transactions
 
     def json(self):

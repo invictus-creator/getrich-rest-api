@@ -65,16 +65,19 @@ class Category(Resource):
         category = CategoryModel.find_by_name(data['name'].lower())
 
         if category is None:
+            # if it's a new category, turn the transaction dict into a list of dicts
             data['transactions'] = [data['transactions']]
             category = CategoryModel(**data)
         else:
+            # if it exists update the name, find if the transaction sent exists yet
             category.name = data['name']
             transaction = TransactionModel.find_by_id(data['transactions']['id'])
             if transaction:
-                # remove it from the category's transactions list, so i can add the updated version
+                # remove it from the category's transactions list, so i can add the updated version, avoid duplicates
                 category.delete_transaction(transaction)
-
             category.transactions.append(data['transactions'])
+
+            # if the type has been changed, update prices in transaction table
             if not category.type == data['_type']:
                 category.type = data['_type']
                 TransactionModel.update_prices(**data)

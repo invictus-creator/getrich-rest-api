@@ -40,7 +40,7 @@ class Transaction(Resource):
     def post(self):
         data = Transaction.parser.parse_args()
 
-        transaction = TransactionModel(data['date'], data['vendor'], data['category'], data['price'])
+        transaction = TransactionModel(data['date'], lower(data['vendor']), lower(data['category']), data['price'])
 
         try:
             transaction.save_to_db()
@@ -56,11 +56,11 @@ class Transaction(Resource):
         transaction = TransactionModel.find_by_id(data['id'])
 
         if transaction is None:
-            transaction = TransactionModel(data['date'], data['vendor'], data['category'], data['price'])
+            transaction = TransactionModel(data['date'], lower(data['vendor']), lower(data['category']), data['price'])
         else:
             transaction.date = data['date']
-            transaction.vendor = data['vendor']
-            transaction.category = data['category']
+            transaction.vendor = lwoer(data['vendor'])
+            transaction.category = lower(data['category'])
             transaction.price = data['price']
 
         try:

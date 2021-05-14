@@ -71,9 +71,9 @@ class Category(Resource):
             data['transactions'] = [data['transactions']]
             category = CategoryModel(**data)
         else:
-            transaction = TransactionModel.find_by_id(data['transactions']['id'])
+            transaction = TransactionModel.find_by_id(data['transactions']['id']).json()
             print("\ntransaction:\n", transaction, "\ncategory tx list:\n", category.transactions, "\n\n")
-            if transaction:
+            if transaction is not None:
                 # remove it from the category's transactions list, so i can add the updated version, avoid duplicates
                 category.delete_transaction(transaction)
             category.transactions.append(data['transactions'])

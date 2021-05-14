@@ -1,4 +1,6 @@
 from db import db
+from sqlalchemy.ext.mutable import MutableList
+from sqlalchemy import pickleType
 
 
 class CategoryModel(db.Model):
@@ -13,7 +15,8 @@ class CategoryModel(db.Model):
     __tablename__ = 'Categories'
     name = db.Column(db.Text, primary_key=True)
     type = db.Column(db.Text)
-    transactions = db.Column(db.ARRAY)
+    transactions = db.Column(MutableList.as_mutable(PickleType),
+                                    default=[])
 
     def __init__(self, name: str, _type: str, transactions=[]):
         self.name = name

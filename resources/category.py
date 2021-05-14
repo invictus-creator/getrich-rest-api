@@ -62,9 +62,7 @@ class Category(Resource):
     # @jwt_required()
     def put(self):
         data = Category.parser.parse_args()
-        print("\ndata:", data)
         data = {"name": data['name'].lower(), "_type": data['_type'].lower(), "transactions": data['transactions']}
-        print("\ndata after:", data)
 
         category = CategoryModel.find_by_name(data['name'].lower())
 
@@ -76,12 +74,10 @@ class Category(Resource):
             category = CategoryModel(**data)
         else:
             transaction = TransactionModel.find_by_id(data['transactions']['id']).json()
-            print("\ntransaction:\n", transaction, "\ncategory tx list:\n", category.transactions, "\n\n")
             if transaction is not None:
                 # remove it from the category's transactions list, so i can add the updated version, avoid duplicates
                 category.delete_transaction(transaction)
             category.transactions.append(data['transactions'])
-            print("\ncategory tx list:\n", category.transactions)
 
             # if the type has been changed, update prices in transaction table
             if not category.type == data['_type']:

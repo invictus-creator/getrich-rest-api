@@ -1,5 +1,4 @@
 from db import db
-from sqlalchemy.dialects import postgresql
 
 
 class CategoryModel(db.Model):
@@ -14,7 +13,7 @@ class CategoryModel(db.Model):
     __tablename__ = 'Categories'
     name = db.Column(db.Text, primary_key=True)
     type = db.Column(db.Text)
-    transactions = db.Column(postgresql.ARRAY)
+    transactions = db.Column(db.ARRAY)
 
     def __init__(self, name: str, _type: str, transactions=[]):
         self.name = name

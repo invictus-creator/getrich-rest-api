@@ -34,6 +34,7 @@ class CategoryModel(db.Model):
                 return
 
     def save_to_db(self):
+        print("\nmodels.category.CategoryModel.save_to_db", self.json())
         db.session.add(self)
         db.session.commit()
 

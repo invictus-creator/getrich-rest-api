@@ -1,6 +1,6 @@
 from db import db
 from sqlalchemy.ext.mutable import MutableList
-from sqlalchemy import pickleType
+from sqlalchemy import PickleType
 
 
 class CategoryModel(db.Model):

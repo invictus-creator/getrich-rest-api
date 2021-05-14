@@ -1,4 +1,5 @@
 from db import db
+from sqlalchemy.dialects import postgresql
 
 
 class CategoryModel(db.Model):
@@ -13,7 +14,7 @@ class CategoryModel(db.Model):
     __tablename__ = 'Categories'
     name = db.Column(db.Text, primary_key=True)
     type = db.Column(db.Text)
-    transactions = db.Column(db.JSON, nullable=True)
+    transactions = db.Column(postgresql.ARRAY)
 
     def __init__(self, name: str, _type: str, transactions=[]):
         self.name = name
@@ -34,7 +35,7 @@ class CategoryModel(db.Model):
                 return
 
     def save_to_db(self):
-        print("\nmodels.category.CategoryModel.save_to_db\n", "="*20, self.json(), "\n", "="*20)
+        print("\nmodels.category.CategoryModel.save_to_db\n", "="*20, "\n", self.json(), "\n", "="*20)
         db.session.add(self)
         db.session.commit()
 

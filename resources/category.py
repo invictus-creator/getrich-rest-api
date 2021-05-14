@@ -36,7 +36,9 @@ class Category(Resource):
         if CategoryModel.find_by_name(data['name'].lower()):
             return {"message": "A category with that name already exists."}, 400
 
-        data['transactions'] = [data['transactions']]
+        l = []
+        l.append(data['transactions'])
+        data['transactions'] = l
         category = CategoryModel(**data)
 
         try:
@@ -68,7 +70,9 @@ class Category(Resource):
 
         if category is None:
             # if it's a new category, turn the transaction dict into a list of dicts
-            data['transactions'] = [data['transactions']]
+            l = []
+            l.append(data['transactions'])
+            data['transactions'] = l
             category = CategoryModel(**data)
         else:
             transaction = TransactionModel.find_by_id(data['transactions']['id']).json()

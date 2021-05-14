@@ -29,7 +29,7 @@ class CategoryModel(db.Model):
 
     def delete_transaction(self, transaction):
         for tx in self.transactions:
-            if tx[id] == transaction['id']:
+            if tx['id'] == transaction['id']:
                 del self.transactions[tx]
                 return
 

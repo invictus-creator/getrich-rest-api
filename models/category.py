@@ -22,9 +22,9 @@ class CategoryModel(db.Model):
     type = db.Column(db.Text)
     db.UniqueConstraint("")
 
-    def __init__(self, name: str, _type: str):
+    def __init__(self, name: str, type: str):
         self.name = name
-        self.type = _type
+        self.type = type
 
     def json(self):
         return {"name": self.name, "type": self.type}

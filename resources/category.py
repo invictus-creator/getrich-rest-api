@@ -10,7 +10,7 @@ class Category(Resource):
                         type=str,
                         required=True,
                         help="This field cannot be left blank.")
-    parser.add_argument('_type',
+    parser.add_argument('type',
                         type=str,
                         required=True,
                         help="This field cannot be left blank.")
@@ -28,7 +28,7 @@ class Category(Resource):
     # @jwt_required()
     def post(self):
         data = Category.parser.parse_args()
-        data = {"name": data['name'].lower(), "_type": data['_type'].lower()}
+        data = {"name": data['name'].lower(), "type": data['type'].lower()}
 
         if CategoryModel.find_by_name(data['name'].lower()):
             return {"message": "A category with that name already exists."}, 400
@@ -56,7 +56,7 @@ class Category(Resource):
     # @jwt_required()
     def put(self):
         data = Category.parser.parse_args()
-        data = {"name": data['name'].lower(), "_type": data['_type'].lower()}
+        data = {"name": data['name'].lower(), "type": data['type'].lower()}
 
         category = CategoryModel.find_by_name(data['name'].lower())
 
@@ -64,8 +64,8 @@ class Category(Resource):
             category = CategoryModel(**data)
         else:
             # if the type has been changed, update prices in transaction table
-            if not category.type == data['_type']:
-                category.type = data['_type']
+            if not category.type == data['type']:
+                category.type = data['type']
                 TransactionModel.update_prices(**data)
 
         category.save_to_db()

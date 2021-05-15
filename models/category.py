@@ -1,43 +1,39 @@
 from db import db
-from sqlalchemy.ext.mutable import MutableList
-from sqlalchemy import PickleType
-
 
 class CategoryModel(db.Model):
-    """
-    This model creates three columns in the database.
+    """TransactionModel is the model class for the Transaction resource.
 
-        name: The name of the category, stored as text in lowercase.
-        type: The type of category, either income or expense, stored in lowercase.
-        transactions: A list of dictionarys--instances of the TransactionModel--or an empty dictionary, stored as JSON.
+        -- tablename: Categories
+        -- Columns:
+            - id (integer, primary key)
+            - name (text, unique constraint)
+            - type: (text)
 
+    Methods:
+        json: returns json representaion of itself
+        find_by_name: finds and returns the CategoryModel object with specified name
+        save_to_db:
+        delete_from_db:
     """
     __tablename__ = 'Categories'
-    name = db.Column(db.Text, primary_key=True)
+    __table_args__ = (db.UniqueConstraint("name"),)
+    _id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.Text)
     type = db.Column(db.Text)
-    transactions = db.Column(MutableList.as_mutable(PickleType),
-                                    default=[])
+    db.UniqueConstraint("")
 
-    def __init__(self, name: str, _type: str, transactions=[]):
+    def __init__(self, name: str, _type: str):
         self.name = name
         self.type = _type
-        self.transactions = transactions
 
     def json(self):
-        return {"name": self.name, "type": self.type, "transactions": self.transactions}
+        return {"name": self.name, "type": self.type}
 
     @classmethod
     def find_by_name(cls, name):
         return cls.query.filter_by(name=name).first()
 
-    def delete_transaction(self, transaction):
-        for tx in self.transactions:
-            if tx['id'] == transaction['id']:
-                self.transactions.remove(tx)
-                return
-
     def save_to_db(self):
-        print("\nmodels.category.CategoryModel.save_to_db\n", "="*20, "\n", self.json(), "\n", "="*20)
         db.session.add(self)
         db.session.commit()
 

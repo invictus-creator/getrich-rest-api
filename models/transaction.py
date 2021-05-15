@@ -3,8 +3,23 @@ from sqlalchemy import func
 
 
 class TransactionModel(db.Model):
-    """
-    This is a child of the CategoryModel.
+    """TransactionModel is the model class for the Transaction resource.
+
+        -- tablename: Transactions
+        -- Columns:
+            - id (integer, primary key)
+            - date (text, formatted as %Y-%m-%d)
+            - vendor (text)
+            - category (text)
+            - price (float, with 2 decimal places)
+
+    Methods:
+        json: returns json representaion of itself
+        find_by_id: finds and returns the TransactionModel object with specified id
+        update_prices: class method, changes the price's sign for each row with given category name, depending
+                        on the given type ("income", "expense")
+        save_to_db:
+        delete_from_db:
     """
     __tablename__ = 'Transactions'
     id = db.Column(db.Integer, primary_key=True)
@@ -28,9 +43,9 @@ class TransactionModel(db.Model):
 
     @classmethod
     def update_prices(cls, name, _type):
-        if _type == "Income":
+        if _type == "income":
             db.session.query(cls).filter(cls.category == name).update({cls.price: func.abs(cls.price)})
-        else:
+        elif _type == "expense":
             db.session.query(cls).filter(cls.category == name).update({cls.price: func.abs(cls.price) * -1})
 
     def save_to_db(self):

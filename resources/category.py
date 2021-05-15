@@ -3,6 +3,7 @@ from flask_restful import Resource, reqparse
 from models.category import CategoryModel
 from models.transaction import TransactionModel
 
+
 class Category(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument('name',
@@ -12,10 +13,6 @@ class Category(Resource):
     parser.add_argument('_type',
                         type=str,
                         required=True,
-                        help="This field cannot be left blank.")
-    parser.add_argument('transactions',
-                        type=dict,
-                        required=False,
                         help="This field cannot be left blank.")
 
     # @jwt_required()
@@ -31,14 +28,11 @@ class Category(Resource):
     # @jwt_required()
     def post(self):
         data = Category.parser.parse_args()
-        data = {"name": data['name'].lower(), "_type": data['_type'].lower(), "transactions": data['transactions']}
+        data = {"name": data['name'].lower(), "_type": data['_type'].lower()}
 
         if CategoryModel.find_by_name(data['name'].lower()):
             return {"message": "A category with that name already exists."}, 400
 
-        l = []
-        l.append(data['transactions'])
-        data['transactions'] = l
         category = CategoryModel(**data)
 
         try:
@@ -57,28 +51,18 @@ class Category(Resource):
             db.session.query(TransactionModel).filter(TransactionModel.category == data['name']).delete()
             category.delete_from_db()
 
-        return {"message": "Category and child transactions deleted."}
+        return {"message": "Category and associated transactions deleted."}
 
     # @jwt_required()
     def put(self):
         data = Category.parser.parse_args()
-        data = {"name": data['name'].lower(), "_type": data['_type'].lower(), "transactions": data['transactions']}
+        data = {"name": data['name'].lower(), "_type": data['_type'].lower()}
 
         category = CategoryModel.find_by_name(data['name'].lower())
 
         if category is None:
-            # if it's a new category, turn the transaction dict into a list of dicts
-            l = []
-            l.append(data['transactions'])
-            data['transactions'] = l
             category = CategoryModel(**data)
         else:
-            transaction = TransactionModel.find_by_id(data['transactions']['id']).json()
-            if transaction is not None:
-                # remove it from the category's transactions list, so i can add the updated version, avoid duplicates
-                category.delete_transaction(transaction)
-            category.transactions.append(data['transactions'])
-
             # if the type has been changed, update prices in transaction table
             if not category.type == data['_type']:
                 category.type = data['_type']
@@ -90,4 +74,4 @@ class Category(Resource):
 
 class CategoryList(Resource):
     def get(self):
-        return {"category list": [category.json() for category in CategoryModel.query.all()],}
+        return {"category list": [category.json() for category in CategoryModel.query.all()], }

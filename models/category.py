@@ -20,7 +20,6 @@ class CategoryModel(db.Model):
     _id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Text)
     type = db.Column(db.Text)
-    db.UniqueConstraint("")
 
     def __init__(self, name: str, type: str):
         self.name = name

@@ -8,8 +8,7 @@ class Transaction(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument('id',
                         type=str,
-                        required=False,
-                        help="This field cannot be left blank.")
+                        required=False)
     parser.add_argument('date',
                         type=str,
                         required=True,

@@ -6,6 +6,9 @@ from models.transaction import TransactionModel
 
 class Category(Resource):
     parser = reqparse.RequestParser()
+    parser.add_argument('id',
+                        type=str,
+                        required=False)
     parser.add_argument('name',
                         type=str,
                         required=True,

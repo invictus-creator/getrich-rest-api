@@ -42,10 +42,10 @@ class TransactionModel(db.Model):
         return cls.query.filter_by(id=_id).first()
 
     @classmethod
-    def update_prices(cls, name, _type):
-        if _type == "income":
+    def update_prices(cls, name, type):
+        if type == "income":
             db.session.query(cls).filter(cls.category == name).update({cls.price: func.abs(cls.price)})
-        elif _type == "expense":
+        elif type == "expense":
             db.session.query(cls).filter(cls.category == name).update({cls.price: func.abs(cls.price) * -1})
 
     def save_to_db(self):

@@ -17,7 +17,7 @@ class TransactionModel(db.Model):
         json: returns json representaion of itself
         find_by_id: finds and returns the TransactionModel object with specified id
         update_prices: class method, changes the price's sign for each row with given category name, depending
-                        on the given type ("income", "expense")
+                        on the given type ("income" or "expense")
         save_to_db:
         delete_from_db:
     """

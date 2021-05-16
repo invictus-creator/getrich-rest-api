@@ -76,8 +76,6 @@ class Transaction(Resource):
 
         transaction = TransactionModel.find_by_id(data['id'])
         if transaction:
-            cateogry = CategoryModel.find_by_name(transaction.category)
-            cateogry.delete_transaction(transaction=transaction.json())
             transaction.delete_from_db()
 
         return {"message": "Transaction deleted."}

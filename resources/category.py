@@ -78,3 +78,5 @@ class Category(Resource):
 class CategoryList(Resource):
     def get(self):
         return {"category list": [category.json() for category in CategoryModel.query.all()], }
+
+

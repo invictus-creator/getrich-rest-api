@@ -84,5 +84,23 @@ class Transaction(Resource):
 class RecentTransactions(Resource):
     # @jwt_required()
     def get(self):
-        return {"recent": [x.json() for x in TransactionModel.query.order_by(TransactionModel.date.desc(),
-                                                                             TransactionModel.id.desc()).limit(50)]}
+        return {
+            "recent":
+                [x.json() for x in TransactionModel.query.order_by(
+                    TransactionModel.date.desc(),TransactionModel.id.desc()).limit(50)]
+        }
+
+class TransactionsInCategory(Resource):
+    parser = reqparse.RequestParser()
+    parser.add_argument('category',
+                        type=str,
+                        required=True,
+                        help="This field cannot be left blank.")
+
+    def get(self):
+        category = TransactionsInCategory.parser.parse_args()['category']
+
+        return {
+            "transactions":
+                [x.json() for x in TransactionModel.query.filter(TransactionModel.category == category).all()]
+        }

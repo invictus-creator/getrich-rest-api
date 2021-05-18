@@ -42,7 +42,10 @@ class Transaction(Resource):
     def post(self):
         data = Transaction.parser.parse_args()
 
-        transaction = TransactionModel(data['date'], data['vendor'].lower(), data['category'].lower(), data['price'])
+        transaction = TransactionModel(datetime.strptime(data['date'], "%Y-%m-%d"),
+                                       data['vendor'].lower(),
+                                       data['category'].lower(),
+                                       data['price'])
 
         try:
             transaction.save_to_db()
@@ -58,9 +61,11 @@ class Transaction(Resource):
         transaction = TransactionModel.find_by_id(data['id'])
 
         if transaction is None:
-            transaction = TransactionModel(data['date'], data['vendor'].lower(), data['category'].lower(), data['price'])
+            transaction = TransactionModel(datetime.strptime(data['date'], "%Y-%m-%d"),
+                                           data['vendor'].lower(), data['category'].lower(),
+                                           data['price'])
         else:
-            transaction.date = data['date']
+            transaction.date = datetime.strptime(data['date'], "%Y-%m-%d")
             transaction.vendor = data['vendor'].lower()
             transaction.category = data['category'].lower()
             transaction.price = data['price']

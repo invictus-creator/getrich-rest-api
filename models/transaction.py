@@ -35,7 +35,7 @@ class TransactionModel(db.Model):
         self.price = price
 
     def json(self):
-        return {"id": self.id, "date": self.date, "vendor": self.vendor, "category": self.category, "price": self.price}
+        return {"id": self.id, "date": self.date.strftime("%y-%m-%d"), "vendor": self.vendor, "category": self.category, "price": self.price}
 
     @classmethod
     def find_by_id(cls, _id):

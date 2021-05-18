@@ -23,7 +23,7 @@ class TransactionModel(db.Model):
     """
     __tablename__ = 'Transactions'
     id = db.Column(db.Integer, primary_key=True)
-    date = db.Column(db.Text)
+    date = db.Column(db.DateTime)
     vendor = db.Column(db.Text)
     category = db.Column(db.Text)
     price = db.Column(db.Float(precision=2))

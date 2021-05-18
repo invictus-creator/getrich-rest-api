@@ -99,8 +99,14 @@ class TransactionsInCategory(Resource):
 
     def get(self):
         category = TransactionsInCategory.parser.parse_args()['category']
+        from_date = datetime.today().replace(day=1).date()
+        today = datetime.today().date()
 
         return {
             "transactions":
-                [x.json() for x in TransactionModel.query.filter(TransactionModel.category == category).all()]
+                [x.json() for x in TransactionModel.query.filter(
+                    TransactionModel.category == category).filter(
+                    TransactionModel.date >= from_date).filter(
+                    TransactionModel.date <= today
+                ).all()]
         }

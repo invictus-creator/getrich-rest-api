@@ -28,7 +28,7 @@ class CategoryModel(db.Model):
         self.budget = budget
 
     def json(self):
-        return {"name": self.name, "type": self.type}
+        return {"name": self.name, "type": self.type, "budget": self.budget}
 
     @classmethod
     def find_by_name(cls, name):

@@ -20,7 +20,8 @@ class Category(Resource):
                         help="This field cannot be left blank.")
     parser.add_argument('budget',
                         type=float,
-                        required=False)
+                        required=False,
+                        default=0.0)
 
     # @jwt_required()
     def get(self):
@@ -35,7 +36,7 @@ class Category(Resource):
     # @jwt_required()
     def post(self):
         data = Category.parser.parse_args()
-        data = {"name": data['name'].lower(), "type": data['type'].lower()}
+        data = {"name": data['name'].lower(), "type": data['type'].lower(), "budget": data['budget']}
 
         if CategoryModel.find_by_name(data['name'].lower()):
             return {"message": "A category with that name already exists."}, 400
@@ -63,7 +64,7 @@ class Category(Resource):
     # @jwt_required()
     def put(self):
         data = Category.parser.parse_args()
-        data = {"name": data['name'].lower(), "type": data['type'].lower()}
+        data = {"name": data['name'].lower(), "type": data['type'].lower(), "budget": data['budget']}
 
         category = CategoryModel.find_by_name(data['name'].lower())
 

@@ -70,9 +70,7 @@ class Category(Resource):
         if category is None:
             category = CategoryModel(**data)
         else:
-            if data['budget'] is None:
-                print('no budget arg')
-            else:
+            if data['budget'] is not None:
                 category.budget = data['budget']
             # if the type has been changed, update prices in transaction table
             if not category.type == data['type']:

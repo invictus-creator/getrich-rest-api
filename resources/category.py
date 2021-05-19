@@ -20,8 +20,7 @@ class Category(Resource):
                         help="This field cannot be left blank.")
     parser.add_argument('budget',
                         type=float,
-                        required=False,
-                        default=0.0)
+                        required=False)
 
     # @jwt_required()
     def get(self):
@@ -71,7 +70,10 @@ class Category(Resource):
         if category is None:
             category = CategoryModel(**data)
         else:
-            category.budget = data['budget']
+            if data['budget'] is None:
+                print('no budget arg')
+            else:
+                category.budget = data['budget']
             # if the type has been changed, update prices in transaction table
             if not category.type == data['type']:
                 category.type = data['type']

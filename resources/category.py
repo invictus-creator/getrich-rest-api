@@ -72,10 +72,10 @@ class Category(Resource):
         else:
             if data['budget'] is not None:
                 category.budget = data['budget']
-            # if the type has been changed, update prices in transaction table
             if not category.type == data['type']:
                 category.type = data['type']
-                TransactionModel.update_prices(**data)
+
+        TransactionModel.update_prices(**data)
 
         category.save_to_db()
         return category.json()

@@ -2,6 +2,7 @@
 from flask_restful import Resource, reqparse
 from models.category import CategoryModel
 from models.transaction import TransactionModel
+from db import db
 
 
 class Category(Resource):

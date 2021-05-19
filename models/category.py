@@ -20,10 +20,12 @@ class CategoryModel(db.Model):
     _id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Text)
     type = db.Column(db.Text)
+    budget = db.Column(db.Float(precision=2))
 
-    def __init__(self, name: str, type: str):
+    def __init__(self, name, type, budget):
         self.name = name
         self.type = type
+        self.budget = budget
 
     def json(self):
         return {"name": self.name, "type": self.type}

@@ -18,6 +18,9 @@ class Category(Resource):
                         type=str,
                         required=True,
                         help="This field cannot be left blank.")
+    parser.add_argument('budget',
+                        type=float,
+                        required=False)
 
     # @jwt_required()
     def get(self):

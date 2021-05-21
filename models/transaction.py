@@ -8,7 +8,7 @@ class TransactionModel(db.Model):
         -- tablename: Transactions
         -- Columns:
             - id (integer, primary key)
-            - date (text, formatted as %Y-%m-%d)
+            - date (DateTime, formatted as %Y-%m-%d)
             - vendor (text)
             - category (text)
             - price (float, with 2 decimal places)
@@ -35,7 +35,11 @@ class TransactionModel(db.Model):
         self.price = price
 
     def json(self):
-        return {"id": self.id, "date": self.date.strftime("%Y-%m-%d"), "vendor": self.vendor, "category": self.category, "price": self.price}
+        return {"id": self.id,
+                "date": self.date.strftime("%Y-%m-%d"),
+                "vendor": self.vendor,
+                "category": self.category,
+                "price": self.price}
 
     @classmethod
     def find_by_id(cls, _id):

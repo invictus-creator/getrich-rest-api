@@ -21,6 +21,8 @@ api.add_resource(RecentTransactions, '/recenttransactions')
 api.add_resource(TransactionsInCategory, '/transactionsincategory')
 api.add_resource(Category, '/category')
 api.add_resource(CategoryList, '/categorylist')
+api.add_resource(Notification, '/notification')
+api.add_resource(NotificationList, '/notificationlist')
 # api.add_resource(UserRegister, '/register')
 
 if __name__ == '__main__':

@@ -4,6 +4,7 @@ from flask_restful import Api
 # from flask_jwt import JWT
 from resources.transaction import Transaction, RecentTransactions, TransactionsInCategory
 from resources.category import Category, CategoryList
+from resources.notification import Notification, NotificationList
 # from security import authenticate, identify
 # from resources.user import UserRegister
 

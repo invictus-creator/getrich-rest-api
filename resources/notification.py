@@ -23,6 +23,10 @@ class Notification(Resource):
                         type=float,
                         required=True,
                         help="This field cannot be left blank.")
+    parser.add_argument('state',
+                        type=int,
+                        required=True,
+                        help="This field cannot be left blank. 0 for off, 1 for on.")
 
     # @jwt_required()
     def get(self):
@@ -40,8 +44,9 @@ class Notification(Resource):
         data = Notification.parser.parse_args()
 
         notification = NotificationModel(datetime.strptime(data['date'], "%Y-%m-%d"),
-                                       data['description'].lower(),
-                                       data['price'])
+                                         data['description'].lower(),
+                                         data['price'],
+                                         data['state'])
 
         try:
             notification.save_to_db()
@@ -58,13 +63,14 @@ class Notification(Resource):
 
         if notification is None:
             notification = NotificationModel(datetime.strptime(data['date'], "%Y-%m-%d"),
-                                           data['description'].lower(),
-                                           data['price'])
+                                             data['description'].lower(),
+                                             data['price'],
+                                             data['state'])
         else:
             notification.date = datetime.strptime(data['date'], "%Y-%m-%d")
             notification.description = data['description'].lower()
             notification.price = data['price']
-
+            notification.state = data['state']
         try:
             notification.save_to_db()
         except:

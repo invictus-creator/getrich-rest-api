@@ -9,6 +9,7 @@ class NotificationModel(db.Model):
             - date (DateTime, formatted as %Y-%m-%d)
             - description (text)
             - price (float, with 2 decimal places)
+            - state (integer, 0 for off and 1 for on)
 
     Methods:
         json: returns json representaion of itself
@@ -21,17 +22,20 @@ class NotificationModel(db.Model):
     date = db.Column(db.DateTime)
     description = db.Column(db.Text)
     price = db.Column(db.Float(precision=2))
+    state = db.Column(db.Integer)
 
-    def __init__(self, date, description, price):
+    def __init__(self, date, description, price, state):
         self.date = date
         self.description = description
         self.price = price
+        self.state = state
 
     def json(self):
         return {"id": self.id,
                 "date": self.date.strftime("%Y-%m-%d"),
                 "description": self.description,
-                "price": self.price}
+                "price": self.price,
+                "state": self.state}
 
     @classmethod
     def find_by_id(cls, _id):

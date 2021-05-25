@@ -94,7 +94,7 @@ class RecentTransactions(Resource):
         return {
             "recent":
                 [x.json() for x in TransactionModel.query.order_by(
-                    TransactionModel.date.desc(),TransactionModel.id.desc()).limit(50)]
+                    TransactionModel.date.desc(),TransactionModel.id.desc()).limit(15)]
         }
 
 class TransactionsInCategory(Resource):
